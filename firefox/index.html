@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Third-Eye</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app">
+        <div class="head">
+            <img class="img" src="./icon.png" alt="Third-Eye Icon" />
+            <p>
+                Third Eye
+            </p>
+            <button id="refresh-tab-button" title="Reload Active Tab To Track For Web Connections">
+                <i class="fa fa-sync"></i>
+            </button>
+        </div>
+        <div class="main">
+            <div class="domain">
+                <div class="host">
+                    <i class="fa fa-server"></i> Hostname:
+                </div>
+                <div class="host-domain">
+                    NO DATA AVAILABLE!
+                </div>
+            </div>
+            <div class="domain-info">
+                <i class="fa fa-link"></i> Domains Connected: null
+            </div>
+            <div class="hr"></div>
+            <div class="domains">
+                <p>
+                    <i class="fa fa-network-wired"></i> List of connected domains:
+                </p>
+                <ul>
+                    <!--<li>
+                        https://www.example1.com
+                    </li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script defer src="./popup.js"></script>
+</body>
+
+</html>

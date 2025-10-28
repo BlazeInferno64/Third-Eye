@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "Third-Eye",
+  "version": "1.0",
+  "description": "A tool to monitor remote server connections made by websites",
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png",
+    "256": "icon.png"
+  },
+  "permissions": [
+    "webRequest",
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs",
+    "nativeMessaging"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "scripts": ["background.js"] 
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"], 
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Third-Eye"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "third-eye@blazeinferno64.github.io",
+      "strict_min_version": "57.0"
+    }
+  }
+}
