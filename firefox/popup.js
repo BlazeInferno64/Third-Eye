@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     const updateDomains = async () => {
         try {
             const ulElement = document.querySelector('.domains ul');
-            const domainInfoElement = document.querySelector('.domain-info');
+            const domainInfoElement = document.querySelector('#doc');
             const refreshButton = document.getElementById('refresh-tab-button');
             const hostDomainElement = document.querySelector('.host-domain'); // Moved this up for use in restricted check
 
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
                     }
                 });
 
-                domainInfoElement.innerHTML = `<i class="fa fa-link"></i> Domains Connected: ${uniqueUrls.size}`;
+                domainInfoElement.innerText = `Domains Connected: ${uniqueUrls.size}`;
 
                 if (urls.length === 0) {
                     const li = document.createElement('li');

@@ -4,10 +4,10 @@
   "version": "1.0",
   "description": "A tool to monitor remote server connections made by websites",
   "icons": {
-    "16": "icon.png",
-    "48": "icon.png",
-    "128": "icon.png",
-    "256": "icon.png"
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   },
   "permissions": [
     "webRequest",
@@ -21,12 +21,18 @@
     "<all_urls>"
   ],
   "background": {
-    "scripts": ["background.js"] 
+    "scripts": [
+      "background.js"
+    ]
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"], 
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "popup.js"
+      ],
       "run_at": "document_start"
     }
   ],
@@ -37,7 +43,12 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "third-eye@blazeinferno64.github.io",
-      "strict_min_version": "57.0"
+      "strict_min_version": "109.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
     }
   }
 }
