@@ -8,7 +8,9 @@ Third-Eye is a lightweight, privacy-focused Chrome extension designed to monitor
 Add to your firefox browser from here
 
 For Pc 👇 
+
 https://addons.mozilla.org/en-US/firefox/addon/third-eye-domain-tracker/
 
 For Android 👇 
+
 https://addons.mozilla.org/en-US/android/addon/third-eye-domain-tracker/
