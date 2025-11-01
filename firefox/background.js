@@ -21,8 +21,24 @@ function getHostname(urlString) {
     }
 }
 
+async function updateBadgeForActiveTab() {
+    try {
+        const tabs = await BROWSER.tabs.query({ active: true, currentWindow: true });
+        const activeTab = tabs[0];
+        if (activeTab && activeTab.id >= 0) {
+            const domainsSet = tabRequests[activeTab.id] || new Set();
+            const count = domainsSet.size;
+            const badgeAPI = BROWSER.browserAction || BROWSER.action;
+            badgeAPI.setBadgeText({ text: count > 0 ? count.toString() : "" });
+            badgeAPI.setBadgeBackgroundColor({ color: "#4b4a4d" });
+        }
+    } catch (error) {
+        console.error("Error updating badge:", error);
+    }
+}
+
 BROWSER.webRequest.onBeforeRequest.addListener(
-    (details) => {
+    async (details) => {
         const { tabId, url, type, initiator } = details;
         if (tabId < 0 || url.startsWith('chrome://') || url.startsWith('data:') || url.startsWith('about:')) {
             return;
@@ -33,27 +49,31 @@ BROWSER.webRequest.onBeforeRequest.addListener(
         if (!tabRequests[tabId]) {
             tabRequests[tabId] = new Set();
         }
-
+        const wasAdded = !tabRequests[tabId].has(hostname);
         tabRequests[tabId].add(hostname);
+
+        if (wasAdded) {
+            await updateBadgeForActiveTab();
+        }
     },
     {
         urls: ["<all_urls>"],
         types: [
-        "csp_report",
-        "font",
-        "image",
-        "main_frame",
-        "media",
-        "object",
-        "other",
-        "ping",
-        "script",
-        "stylesheet",
-        "sub_frame",
-        "webbundle",
-        "websocket",
-        "xmlhttprequest"
-    ]
+            "csp_report",
+            "font",
+            "image",
+            "main_frame",
+            "media",
+            "object",
+            "other",
+            "ping",
+            "script",
+            "stylesheet",
+            "sub_frame",
+            "webbundle",
+            "websocket",
+            "xmlhttprequest"
+        ]
     }
 )
 
@@ -72,6 +92,16 @@ BROWSER.tabs.onRemoved.addListener((tabId) => {
     delete tabRequests[tabId];
 });
 
+// Update badge when tab is activated (switched to)
+BROWSER.tabs.onActivated.addListener(async (activeInfo) => {
+    await updateBadgeForActiveTab();
+});
+// Set initial badge background color on startup
+BROWSER.runtime.onStartup.addListener(() => {
+    const badgeAPI = BROWSER.browserAction || BROWSER.action;
+    badgeAPI.setBadgeBackgroundColor({ color: "#4b4a4d" });
+});
+
 /*function handleMessages(message, sender, sendResponse) {
     console.log(message)
 
@@ -85,7 +115,7 @@ BROWSER.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const domainsSet = tabRequests[tabId] || new Set();
         const domains = Array.from(domainsSet);
         console.log(domains);
-        sendResponse({ urls: domains } );
+        sendResponse({ urls: domains });
         return true;
     }
 });

@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
             });
 
             const activeTab = tabs[0];
-            
+
             // Check for restricted pages (including Firefox's 'about:' pages)
             if (activeTab && (activeTab.url.startsWith('chrome://') || activeTab.url.startsWith('about:'))) {
                 if (hostDomainElement) {
@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
                 if (ulElement) {
                     ulElement.innerHTML = '<li>Cannot track connections on this restricted page!</li>';
                 }
+
                 clearInterval(refreshIntervalId);
                 return;
             }
@@ -42,7 +43,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
                     hostDomainElement.textContent = hostname;
                 }
             }
-            
+
             // Use await with BROWSER.runtime.sendMessage
             const response = await BROWSER.runtime.sendMessage({
                 type: 'getDomainData',
@@ -59,7 +60,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
                 const { urls } = response;
                 ulElement.innerHTML = '';
                 const uniqueUrls = new Set();
-                
+
                 urls.forEach(domain => {
                     try {
                         uniqueUrls.add(domain);
@@ -84,19 +85,19 @@ document.addEventListener("DOMContentLoaded", (e) => {
                 // Make the click handler async
                 refreshButton.addEventListener("click", async (e) => {
                     refreshButton.classList.add('spin');
-                    
+
                     // Use await with BROWSER.tabs.query
                     const reloadTabs = await BROWSER.tabs.query({
                         active: true,
                         currentWindow: true
                     });
-                    
+
                     const reloadActiveTab = reloadTabs[0];
-                    
+
                     if (reloadActiveTab && reloadActiveTab.id) {
                         // Use await with BROWSER.tabs.reload (Promise-based)
-                        await BROWSER.tabs.reload(reloadActiveTab.id); 
-                        
+                        await BROWSER.tabs.reload(reloadActiveTab.id);
+
                         setTimeout(() => {
                             refreshButton.classList.remove('spin');
                         }, 800);
@@ -107,7 +108,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
             console.error(error);
         }
     }
-    
+
     updateDomains();
 
     refreshIntervalId = setInterval(updateDomains, 1000);
