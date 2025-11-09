@@ -105,7 +105,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
                 });
             }
         } catch (error) {
-            console.error(error);
+            // Ignore erros to avoid browser console error messages floods!
+          //  console.error(error);
         }
     }
 
